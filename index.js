@@ -3,25 +3,25 @@ export default async function (items, config, offbase) {
   // build pages
   // Instantiate templates
   let { fs } = offbase;
-  let tds = await fs.promises.readFile(config.THEME.HOME, "utf8")
+  let tds = await fs.promises.readFile(config.settings.THEME.HOME, "utf8")
   let tpl = Handlebars.compile(tds)
-  await fs.promises.mkdir(`${config.DEST}/pages`).catch((e) => { })
-  let { index, pages } = await paginator(items, tpl, config)
+  await fs.promises.mkdir(`${config.settings.DEST}/pages`).catch((e) => { })
+  let { index, pages } = await paginator(items, tpl, config.settings)
   for(let i=0; i<pages.length; i++) {
-    await fs.promises.mkdir(`${config.DEST}/pages/${i}`).catch((e) => { })
-    await fs.promises.writeFile(`${config.DEST}/pages/${i}/index.html`, pages[i]).catch((e) => { })
+    await fs.promises.mkdir(`${config.settings.DEST}/pages/${i}`).catch((e) => { })
+    await fs.promises.writeFile(`${config.settings.DEST}/pages/${i}/index.html`, pages[i]).catch((e) => { })
   }
-  await fs.promises.writeFile(`${config.DEST}/index.html`, index)
+  await fs.promises.writeFile(`${config.settings.DEST}/index.html`, index)
 }
   //paginator (filenames, meta, template, CHUNK) {
-const paginator = (items, template, config) => {
+const paginator = (items, template, config.settings) => {
   console.log("items = ", items)
   let pages = [];
   let counter = []
-  for (let i=0; i<items.length; i+=config.PAGE.CHUNK) {
-    let page = items.slice(i, i + config.PAGE.CHUNK)
+  for (let i=0; i<items.length; i+=config.settings.PAGE.CHUNK) {
+    let page = items.slice(i, i + config.settings.PAGE.CHUNK)
     pages.push(page)
-    counter.push({ number: i/config.PAGE.CHUNK })
+    counter.push({ number: i/config.settings.PAGE.CHUNK })
   }
   let res = []
   let index;
@@ -29,7 +29,7 @@ const paginator = (items, template, config) => {
     console.log("page = ", pages[i])
     counter[i].current = true;
     let html = template({
-      title: config.NAME,
+      title: config.settings.NAME,
       base: "../../",
       items: pages[i].map((item) => {
         return {
@@ -43,7 +43,7 @@ const paginator = (items, template, config) => {
 
     if (i === 0) {
       index = template({
-        title: config.NAME,
+        title: config.settings.NAME,
         base: "./",
         items: pages[i].map((item) => {
           return {
