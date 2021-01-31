@@ -1,7 +1,5 @@
 import Handlebars from "https://jspm.dev/handlebars"
 export default async function (items, config, offbase) {
-  // build pages
-  // Instantiate templates
   let { fs } = offbase;
   let tds = await fs.promises.readFile(config.settings.THEME.HOME, "utf8")
   let tpl = Handlebars.compile(tds)
@@ -13,7 +11,6 @@ export default async function (items, config, offbase) {
   }
   await fs.promises.writeFile(`${config.settings.DEST}/index.html`, index)
 }
-  //paginator (filenames, meta, template, CHUNK) {
 const paginator = (items, template, config) => {
   console.log("items = ", items)
   let pages = [];
@@ -33,7 +30,7 @@ const paginator = (items, template, config) => {
       base: "../../",
       items: pages[i].map((item) => {
         return {
-          filename: item.key,
+          filename: "/post/" + item.key,
           meta: item.data
         }
       }),
