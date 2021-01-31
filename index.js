@@ -14,7 +14,7 @@ export default async function (items, config, offbase) {
   await fs.promises.writeFile(`${config.settings.DEST}/index.html`, index)
 }
   //paginator (filenames, meta, template, CHUNK) {
-const paginator = (items, template, config.settings) => {
+const paginator = (items, template, config) => {
   console.log("items = ", items)
   let pages = [];
   let counter = []
