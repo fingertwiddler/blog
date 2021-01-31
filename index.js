@@ -30,7 +30,7 @@ const paginator = (items, template, config) => {
       base: "../../",
       items: pages[i].map((item) => {
         return {
-          filename: "/post/" + item.key,
+          filename: "post/" + item.key,
           meta: item.data
         }
       }),
@@ -44,7 +44,7 @@ const paginator = (items, template, config) => {
         base: "./",
         items: pages[i].map((item) => {
           return {
-            filename: item.key,
+            filename: "post/" + item.key,
             meta: item.data
           }
         }),
