@@ -6,7 +6,7 @@ export default async function (items, config, offbase) {
   let tds = await fs.promises.readFile(config.settings.THEME.HOME, "utf8")
   let tpl = Handlebars.compile(tds)
   await fs.promises.mkdir(`${config.settings.DEST}/pages`).catch((e) => { })
-  let { index, pages } = await paginator(items, tpl, config.settings)
+  let { index, pages } = await paginator(items, tpl, config)
   for(let i=0; i<pages.length; i++) {
     await fs.promises.mkdir(`${config.settings.DEST}/pages/${i}`).catch((e) => { })
     await fs.promises.writeFile(`${config.settings.DEST}/pages/${i}/index.html`, pages[i]).catch((e) => { })
